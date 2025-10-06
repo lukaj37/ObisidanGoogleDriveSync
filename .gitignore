@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# VS Code
+.vscode/
+
+# Credentials and secrets
+.env
+*.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Google auth tokens
+*.pickle
+token.json
+
+# Twilio
+.twilio*
+
+# Obsidian sync artifacts
+*.bak
+
+# Ignore everything sensitive and unnecessary for repo
