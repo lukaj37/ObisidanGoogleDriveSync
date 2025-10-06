@@ -1,6 +1,7 @@
 from twilio.rest import Client
 from dotenv import load_dotenv
 import os
+import sys
 import hashlib
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
@@ -8,13 +9,26 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
-load_dotenv()
-
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
-# Local files for auth caching
-CREDENTIALS_FILE = 'credentials.json'  # downloaded from Google Cloud Console
-TOKEN_FILE = 'token.json'              # saved after first login
+# --- Resolve base directory properly ---
+if getattr(sys, 'frozen', False):
+    # Running as compiled executable (PyInstaller)
+    BASE_DIR = os.path.dirname(sys.executable)
+else:
+    # Running as normal Python script
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Load .env explicitly from the script folder
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+
+# --- Define absolute paths for credentials ---
+CREDENTIALS_FILE = os.path.join(BASE_DIR, "credentials.json")
+TOKEN_FILE = os.path.join(BASE_DIR, "token.json")
+
+# --- Define your local Obsidian vault path (absolute path, not relative) ---
+# Make sure this matches your actual folder name exactly.
+VAULT_PATH = os.getenv('VAULT_PATH')
 
 def authenticate():
     """
@@ -160,9 +174,6 @@ def send_whatsapp_message(body):
 if __name__ == "__main__":
     # 1. Authenticate with Google
     service = authenticate()
-
-    # 2. Set your local Obsidian vault folder path (change this!)
-    VAULT_PATH = r"C:\Users\luka.jankovic\Opsidian Notes\Opsidian"
 
     # 3. Set your Google Drive folder ID (copy from Drive URL)
     DRIVE_FOLDER_ID = "1k2Fzvi0SnKk8G4k-M8nOj_csXFi6wCJo"

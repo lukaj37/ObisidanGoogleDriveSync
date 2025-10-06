@@ -190,7 +190,6 @@ WhatsApp message sent: ✅ Obsidian sync finished!
 **Luka Janković**
 *FullStack .NET & Angular Software Engineer*
 🔗 [LinkedIn Profile](https://www.linkedin.com/in/jankovicluka/)
-🏗 Focused on automation, cloud integration, and productivity tooling.
 
 ---
 
