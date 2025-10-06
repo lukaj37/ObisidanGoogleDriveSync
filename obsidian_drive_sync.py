@@ -68,9 +68,10 @@ def upload_file(service, local_path, drive_folder_id):
         drive_file = files[0]
         if drive_file.get('md5Checksum') == local_md5:
             print(f"✅ Skipped (unchanged): {filename}")
-            return
+            return 'unchanged'
         print(f"🔁 Updating file: {filename}")
         service.files().update(fileId=drive_file['id'], media_body=media).execute()
+        return 'updated'
     else:
         print(f"⬆️ Uploading new file: {filename}")
         service.files().create(
@@ -78,6 +79,7 @@ def upload_file(service, local_path, drive_folder_id):
             media_body=media,
             fields='id'
         ).execute()
+        return 'added'
 
 
 def get_or_create_drive_folder(service, parent_id, folder_name):
@@ -104,6 +106,7 @@ def sync_vault(service, vault_path, drive_folder_id):
     """
     allowed_exts = {'.md', '.pdf', '.png', '.jpg'}
     folder_cache = {vault_path: drive_folder_id}
+    stats = {'added': 0, 'updated': 0, 'unchanged': 0}
     for root, dirs, files in os.walk(vault_path):
         # Skip folders that start with '.'
         rel_path = os.path.relpath(root, vault_path)
@@ -131,7 +134,10 @@ def sync_vault(service, vault_path, drive_folder_id):
             if ext not in allowed_exts:
                 continue  # skip files not in allowed extensions
             local_file = os.path.join(root, file)
-            upload_file(service, local_file, current_drive_folder_id)
+            result = upload_file(service, local_file, current_drive_folder_id)
+            if result in stats:
+                stats[result] += 1
+    return stats
 
 def send_whatsapp_message(body):
     """
@@ -164,6 +170,12 @@ if __name__ == "__main__":
     # 4. Sync all files
     send_whatsapp_message("Obsidian sync started.")
     print("🔄 Starting sync...")
-    sync_vault(service, VAULT_PATH, DRIVE_FOLDER_ID)
+    stats = sync_vault(service, VAULT_PATH, DRIVE_FOLDER_ID)
     print("✅ Sync complete.")
-    send_whatsapp_message("Obsidian sync finished.")
+    summary = (
+        f"✅ Obsidian sync finished!\n"
+        f"🆕 Added: {stats['added']}\n"
+        f"🔁 Updated: {stats['updated']}\n"
+        f"👌 Unchanged: {stats['unchanged']}"
+    )
+    send_whatsapp_message(summary)
