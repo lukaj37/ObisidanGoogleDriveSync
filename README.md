@@ -1,8 +1,3 @@
-Here’s a **professional, full-detail `README.md`** for your **Obsidian → Google Drive Sync with WhatsApp Notifications** project.
-It documents the architecture, setup, configuration, and troubleshooting steps — written in a format suitable for GitHub or internal documentation.
-
----
-
 ```markdown
 # 🧠 Obsidian → Google Drive Sync (with WhatsApp Notifications)
 
@@ -127,10 +122,10 @@ In `obsidian_drive_sync.py`, configure these constants:
 
 ```python
 # Your local Obsidian vault folder path
-VAULT_PATH = r"C:\Users\luka.jankovic\Opsidian Notes\Opsidian"
+VAULT_PATH = r"C:\Users\path-to-your-obsidian-vault"
 
 # Your target Google Drive folder ID
-DRIVE_FOLDER_ID = "1k2Fzvi0SnKk8G4k-M8nOj_csXFi6wCJo"
+DRIVE_FOLDER_ID = "google-drive-folder-id"
 ```
 
 To find your Drive folder ID:
@@ -172,22 +167,6 @@ WhatsApp message sent: ✅ Obsidian sync finished!
 | Files not uploading                         | Wrong `DRIVE_FOLDER_ID`              | Verify the folder ID and permissions                        |
 | Hidden/system files being uploaded          | Check `.obsidian` and `.git` folders | The script already skips hidden folders — verify your paths |
 
----
-
-## 🔒 Security Notes
-
-* Never commit `.env`, `credentials.json`, or `token.json` to GitHub.
-* Use `.gitignore`:
-
-  ```
-  .env
-  credentials.json
-  token.json
-  __pycache__/
-  ```
-* Environment variables are loaded securely via `python-dotenv`.
-
----
 
 ## 🧱 Future Enhancements
 
@@ -202,16 +181,7 @@ WhatsApp message sent: ✅ Obsidian sync finished!
 
 **Luka Janković**
 *FullStack .NET & Angular Software Engineer*
-📧 [Your Email or LinkedIn]
+📧 (https://www.linkedin.com/in/jankovicluka/)
 🏗 Focused on automation, cloud integration, and productivity tooling.
 
 ---
-
-## 🪪 License
-
-MIT License © 2025 Luka Janković
-Use freely, modify responsibly.
-
-```
-
-```
